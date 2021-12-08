@@ -1,0 +1,35 @@
+﻿using Core.DataAccess.EntityFramework;
+using DataAccess.Abstract;
+using Entities.Concrete;
+using Entities.DTOs;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DataAccess.Concrete.EntityFramework
+{   //NuGet
+    public class EfProductDal : EfEntityRepositoryBase<Product, NorthwindContext>, IProductDal
+    {
+        public List<ProductDetailDto> GetProductDetails()
+        {
+            using (NorthwindContext context=new NorthwindContext())
+            {
+                var result = from p in context.Products//ürünlere p de
+                             join c in context.Categories// kategorilere c de
+                             on p.CategoryId equals c.CategoryId//on koşulu belirtildi category ıd leri eşitse join et dedik.
+                             select new ProductDetailDto { //Hangi kolonları istiyorsun?. yani diyorki sonucu şu kolonlara uyarak ver. peki alanlar nereden 
+                                 ProductId = p.ProductId, 
+                                 ProductName = p.ProductName, 
+                                 CategoryName = c.CategoryName, 
+                                 UnitsInStock = p.UnitsInStock
+                             };
+                return result.ToList(); //dönen sonuc bir I bilmem ne 
+
+            }
+        }
+    }
+}
