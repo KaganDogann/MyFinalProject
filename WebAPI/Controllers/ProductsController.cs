@@ -45,6 +45,17 @@ namespace WebAPI.Controllers
             return BadRequest(result); //400
         }
 
+        [HttpGet("getbycategory")]
+        public IActionResult GetByCategory(int categoryId)
+        {
+            var result = _productService.GetAllByCategoryId(categoryId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result); //400
+        }
+
         [HttpPost("add")]
 
         public IActionResult Add(Product product) //istedğin nesneyi buraya parametre oalrka yazarım. bana verdiğin clientten ürünü buraya koy

@@ -43,6 +43,7 @@ namespace WebAPI
             //services.AddSingleton<IProductService, ProductManager>(); //bu þu demek: biri constructorda IPRODUCTSERVÝCE isterse ona arka planda bir tane prdocut manager new i ver demek.
             //services.AddSingleton<IProductDal, EfProductDal>();//Burasý zincir gibi gidecek. productmanagerda IProductDal ile çalýþýyor ya o yüzdenonunda new lemem gerek
 
+            services.AddCors();
 
             //services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -85,6 +86,8 @@ namespace WebAPI
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebAPI v1"));
             }
+
+            app.UseCors(builder=>builder.WithOrigins("http://localhost:4200").AllowAnyHeader());
 
             app.UseHttpsRedirection();
 
